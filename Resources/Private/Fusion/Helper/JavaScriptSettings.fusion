@@ -22,6 +22,7 @@ prototype(KaufmannDigital.GDPR.CookieConsent:Helper.JavaScriptSettings) < protot
     @context.cookieDomainName = ${Configuration.setting('KaufmannDigital.GDPR.CookieConsent.cookieDomainName')}
 
     @context.nodeTypeDisabled = ${Array.indexOf(Configuration.setting('KaufmannDigital.GDPR.CookieConsent.excludeDocumentNodeTypes'), documentNode.nodeType.name) >= 0}
+    @context.hideBeforeInteraction = ${Configuration.setting('KaufmannDigital.GDPR.CookieConsent.hideBeforeInteraction')}
 
     content = ${"
             var KD_GDPR_CC = {
@@ -31,9 +32,11 @@ prototype(KaufmannDigital.GDPR.CookieConsent:Helper.JavaScriptSettings) < protot
                 versionTimestamp: " + versionDate.timestamp * 1000 + ",
                 decisionTtl: " + (decisionTtl ? (decisionTtl * 1000) : 0) + ",
                 dimensionsIdentifier: '" + (dimensionsIdentifier != '' ? dimensionsIdentifier : 'default') + "',
-                nodeTypeDisabled: " + (nodeTypeDisabled ? 'true' : 'false') +"
+                nodeTypeDisabled: " + (nodeTypeDisabled ? 'true' : 'false') +",
+                hideBeforeInteraction: " + (hideBeforeInteraction ? 'true' : 'false') +"
             };
         "}
+
     @if.condition = ${node.context.inBackend == false}
 
 }
